@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Omnipro_QuickProductPositioning::featured_product"
+             title="Featured Products"
+             translate="title"
+             module="Omnipro_QuickProductPositioning"
+             sortOrder="25"
+             dependsOnModule="Omnipro_QuickProductPositioning"
+             resource="Omnipro_QuickProductPositioning::featured_product"
+        />
+        <add id="Omnipro_QuickProductPositioning::featured_product_management"
+             title="Featured Products Management"
+             translate="title"
+             module="Omnipro_QuickProductPositioning"
+             sortOrder="10"
+             parent="Omnipro_QuickProductPositioning::featured_product"
+             action="featuredproducts/index"
+             resource="Omnipro_QuickProductPositioning::featured_product_management"
+        />
+    </menu>
+</config>

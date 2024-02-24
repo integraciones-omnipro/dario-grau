@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">featuredproducts_index_form.featuredproducts_index_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Featured Product Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="reset" class="Omnipro\QuickProductPositioning\Block\Adminhtml\FeaturedProduct\Edit\Buttons\Reset"/>
+            <button name="save" class="Omnipro\QuickProductPositioning\Block\Adminhtml\FeaturedProduct\Edit\Buttons\Save"/>
+            <button name="save_and_continue" class="Omnipro\QuickProductPositioning\Block\Adminhtml\FeaturedProduct\Edit\Buttons\SaveAndContinue"/>
+            <button name="back" class="Omnipro\QuickProductPositioning\Block\Adminhtml\FeaturedProduct\Edit\Buttons\Back"/>
+        </buttons>
+        <namespace>featuredproducts_input_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>featuredproducts_index_form.featuredproducts_index_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="featuredproducts_index_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="featuredproducts/index/save"/>
+        </settings>
+        <dataProvider class="Omnipro\QuickProductPositioning\Model\DataProvider" name="featuredproducts_index_form_data_source">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="featured_product_input">
+        <settings>
+            <additionalClasses>
+                <class name="_block-wrapper">true</class>
+            </additionalClasses>
+            <label translate="true">Featured Product</label>
+        </settings>
+        <field name="entity_id" formElement="hidden">
+            <settings>
+                <dataType>text</dataType>
+            </settings>
+        </field>
+        <field name="product_sku" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_sku</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Product Sku</label>
+            </settings>
+        </field>
+        <field name="categories" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Categories</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Categories</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <notice translate="true">Comma-separated categories IDs</notice>
+            </settings>
+        </field>
+        <field name="sort_order" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">sort_order</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="validate-digits" xsi:type="boolean">true</rule>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Sort Order</label>
+                <dataScope>sort_order</dataScope>
+            </settings>
+        </field>
+    </fieldset>
+</form>

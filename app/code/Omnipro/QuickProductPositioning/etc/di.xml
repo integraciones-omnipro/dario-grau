@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Omnipro\QuickProductPositioning\Api\Data\FeaturedProductInterface"
+                type="Omnipro\QuickProductPositioning\Model\FeaturedProductModel"/>
+    <preference for="Omnipro\QuickProductPositioning\Api\FeaturedProductRepositoryInterface"
+                type="Omnipro\QuickProductPositioning\Model\FeaturedProductRepository"/>
+    <preference for="Omnipro\QuickProductPositioning\Api\Data\FeaturedProductSearchResultsInterface"
+                type="Omnipro\QuickProductPositioning\Model\FeaturedProductSearchResults"/>
+
+    <virtualType name="Omnipro\QuickProductPositioning\Virtual\Model\Api\SearchCriteria\InputCollectionProcessor"
+                 type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Omnipro\QuickProductPositioning\Model\FeaturedProductRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Omnipro\QuickProductPositioning\Virtual\Model\Api\SearchCriteria\InputCollectionProcessor</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="OmniproFeaturedProductGridDataProvider"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Omnipro\QuickProductPositioning\Model\ResourceModel\FeaturedProductModel\FeaturedProductCollection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">FeaturedProductGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="FeaturedProductGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Omnipro\QuickProductPositioning\Model\ResourceModel\FeaturedProductModel\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">omnipro_featured_products</argument>
+            <argument name="eventPrefix" xsi:type="string">omnipro_featured_products_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">omnipro_featured_products_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Omnipro\QuickProductPositioning\Model\ResourceModel\FeaturedProductResource</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="omnipro_featuredproducts_index_listing_data_source" xsi:type="string">Omnipro\QuickProductPositioning\Model\ResourceModel\FeaturedProductModel\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
