@@ -1,0 +1,19 @@
+{
+    "name": "omnipro/module-quick-product-positioning",
+    "version": "1.0.0",
+    "description": "The Omnipro_QuickProductPositioning module lets you add or remove products from a grid in the Adobe Commerce backend, designating them as featured products. These featured products can be displayed on the first page of one or several select categories. You have the option to order these products in either ascending or descending order.",
+    "type": "magento2-module",
+    "require": {
+        "php": "~7.4.0||~8.1.0||~8.2.0",
+        "magento/framework": "*",
+        "magento/module-catalog": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Omnipro\\QuickProductPositioning\\": ""
+        }
+    }
+}
