@@ -8,6 +8,7 @@
              module="Omnipro_QuickProductPositioning"
              sortOrder="25"
              dependsOnModule="Omnipro_QuickProductPositioning"
+             dependsOnConfig="qpp_configuration/general/enabled"
              resource="Omnipro_QuickProductPositioning::featured_product"
         />
         <add id="Omnipro_QuickProductPositioning::featured_product_management"
