@@ -7,45 +7,42 @@ use DateTimeZone;
 use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Catalog\Api\CategoryLinkManagementInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\View\Result\PageFactory;
 use Omnipro\QuickProductPositioning\Api\FeaturedProductRepositoryInterface;
 use Omnipro\QuickProductPositioning\Api\Data\FeaturedProductInterfaceFactory;
-use Magento\Framework\Stdlib\DateTime\DateTime;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use RuntimeException;
+
+use Magento\Catalog\Api\CategoryLinkRepositoryInterface;
+use Magento\Catalog\Api\Data\CategoryProductLinkInterfaceFactory;
 
 class Save extends Action
 {
-    protected PageFactory $pageFactory;
-    protected $messageManager;
     protected FeaturedProductRepositoryInterface $featuredProductRepository;
     protected FeaturedProductInterfaceFactory $featuredProductInterfaceFactory;
-    protected DateTime $date;
-    protected FilterBuilder $filterBuilder;
-    protected SearchCriteriaBuilder $searchCriteriaBuilder;
     protected ProductRepositoryInterface $productRepository;
+    protected CategoryLinkManagementInterface $categoryLinkManagement;
+    protected $messageManager;
+    private CategoryLinkRepositoryInterface $categoryLinkRepository;
+    private CategoryProductLinkInterfaceFactory $productLinkFactory;
 
     public function __construct(
         Context $context,
-        PageFactory $resultPageFactory,
-        FeaturedProductRepositoryInterface $formInputRepository,
-        FeaturedProductInterfaceFactory $formInputInterfaceFactory,
-        FilterBuilder $filterBuilder,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        DateTime $date,
-        ProductRepositoryInterface $productRepository
+        FeaturedProductRepositoryInterface $featuredProductRepository,
+        FeaturedProductInterfaceFactory $featuredProductInterfaceFactory,
+        ProductRepositoryInterface $productRepository,
+        CategoryLinkManagementInterface $categoryLinkManagement,
+        CategoryLinkRepositoryInterface $categoryLinkRepository,
+        CategoryProductLinkInterfaceFactory $productLinkFactory
     ) {
-        $this->pageFactory = $resultPageFactory;
-        $this->featuredProductRepository = $formInputRepository;
-        $this->featuredProductInterfaceFactory = $formInputInterfaceFactory;
-        $this->date = $date;
-        $this->filterBuilder = $filterBuilder;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->featuredProductRepository = $featuredProductRepository;
+        $this->featuredProductInterfaceFactory = $featuredProductInterfaceFactory;
         $this->productRepository = $productRepository;
+        $this->categoryLinkManagement = $categoryLinkManagement;
+        $this->categoryLinkRepository = $categoryLinkRepository;
+        $this->productLinkFactory = $productLinkFactory;
         parent::__construct($context);
     }
 
@@ -68,19 +65,30 @@ class Save extends Action
                 $model = $this->featuredProductInterfaceFactory->create();
             }
             try {
-                $sku = $data['product_sku'];
-                $product = $this->productRepository->get($sku);
-                $categories = $data['categories'];
+                $productId = $data['products'];
+                $product = $this->productRepository->getById($productId);
+                $categories = implode(",", $data['categories']);
                 $sortOrder = (int) $data['sort_order'];
-                $productId = (int) $product->getId();
+                $sku = $product->getSku();
                 $productName = $product->getName();
-                $model->setProductId($productId);
+                $model->setProductId((int)$productId);
                 $model->setProductSku($sku);
                 $model->setCategories($categories);
                 $model->setSortOrder($sortOrder);
                 $model->setProductName($productName);
                 $model->setUpdatedAt($time);
                 $this->featuredProductRepository->save($model);
+
+                // TODO: check what is the lowest position so we put the featured product in the corresponding position
+                // Update the catalog category product table
+                foreach ($data['categories'] as $categoryId) {
+                    $link = $this->productLinkFactory->create();
+                    $link->setSku($sku)
+                        ->setCategoryId($categoryId)
+                        ->setPosition($sortOrder);
+                    $this->categoryLinkRepository->save($link);
+                }
+
                 $this->messageManager->addSuccessMessage(__('You saved this Featured Product.'));
                 $this->_getSession()->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
