@@ -1,0 +1,35 @@
+"Action","Acciones"
+"Add New Featured Product","Añadir Nuevo Producto Destacado"
+Back,Atrás
+Categories,Categorías
+Delete,Eliminar
+Edit,Editar
+"Edit Featured Product","Editar Producto Destacado"
+Enabled,Habilitado
+"Featured Product","Producto Destacado"
+"Featured Product Information","Información del Producto Destacado"
+"Featured Products","Productos Destacados"
+"Featured Products Management","Gestión de Productos Destacados"
+"Featured Products Management Grid Edit","Editar vista de cuadrícula de gestión de productos destacados"
+"Featured Products Management Grid View","Vista de cuadrícula de gestión de productos destacados"
+"General Configurations","Configuraciones Generales"
+"New Featured Product","Nuevo Producto Destacado"
+Product,Producto
+Omnipro,Omnipro
+"Product ID","ID del Producto"
+"Product Name","Nombre del Producto"
+"Product SKU","SKU del Producto"
+"Quick Product Positioning","Posicionamiento Rápido del Producto"
+Reset,Restablecer
+"Save Featured Product","Guardar Producto Destacado"
+"Save and Continue Edit","Guardar y Continuar Editando"
+"Select","Seleccionar"
+Select,Seleccionar
+"Sort Order","Orden de Clasificación"
+"The implementation of FeaturedProductInterface has changed","La implementación de FeaturedProductInterface ha cambiado"
+"The featured product could not be found","No se pudo encontrar el producto destacado"
+"Something went wrong. Please try again later.","Algo salió mal. Por favor, inténtalo de nuevo más tarde."
+"Something went wrong while saving the Featured Product: %1","Algo salió mal al guardar el Producto Destacado: %1"
+"Updated At","Actualizado En"
+"You have deleted the Featured Product ID:  %entityId.","Has eliminado Producto Destacado con ID: %entityId."
+"You saved this Featured Product.","Has guardado este Producto Destacado."
