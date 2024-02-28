@@ -23,9 +23,7 @@ class NewAction extends Action
     public function execute()
     {
         $resultForward = $this->forwardFactory->create();
-        // redirect to index because we are not allowing to create new inputs
         $resultForward->forward('edit');
-        //$resultForward->forward('edit');
         return $resultForward;
     }
 }

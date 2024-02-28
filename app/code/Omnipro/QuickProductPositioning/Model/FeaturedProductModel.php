@@ -18,7 +18,7 @@ class FeaturedProductModel extends AbstractModel implements FeaturedProductInter
 
     public function getProductId(): ?int
     {
-        return $this->getData(self::PRODUCT_ID);
+        return (int) $this->getData(self::PRODUCT_ID);
     }
 
     public function setProductId(?int $productId): void
@@ -58,7 +58,7 @@ class FeaturedProductModel extends AbstractModel implements FeaturedProductInter
 
     public function getSortOrder(): ?int
     {
-        return $this->getData(self::SORT_ORDER);
+        return (int) $this->getData(self::SORT_ORDER);
     }
 
     public function setSortOrder(?int $sortOrder): void

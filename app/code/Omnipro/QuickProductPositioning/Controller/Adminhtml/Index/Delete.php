@@ -29,6 +29,9 @@ class Delete extends Action
         if ($id) {
             try {
                 $featuredProduct = $this->featuredProductRepository->getById($id);
+
+                // TODO: Remove the catalog_category_product relation
+
                 $this->featuredProductRepository->deleteById($id);
                 $this->messageManager->addSuccessMessage(
                     __(

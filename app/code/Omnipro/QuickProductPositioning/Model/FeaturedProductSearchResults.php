@@ -6,7 +6,7 @@ namespace Omnipro\QuickProductPositioning\Model;
 use Magento\Framework\Api\SearchResults;
 use Omnipro\QuickProductPositioning\Api\Data\FeaturedProductSearchResultsInterface;
 
-class FeaturedProductSearchResults
+class FeaturedProductSearchResults extends SearchResults implements FeaturedProductSearchResultsInterface
 {
 
 }

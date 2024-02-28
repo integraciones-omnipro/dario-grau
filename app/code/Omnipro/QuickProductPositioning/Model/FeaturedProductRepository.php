@@ -25,20 +25,20 @@ class FeaturedProductRepository implements FeaturedProductRepositoryInterface
     private FeaturedProductModelFactory $featuredProductFactory;
     private FeaturedProductCollectionFactory $featuredProductCollectionFactory;
     private CollectionProcessorInterface $collectionProcessor;
-    private FeaturedProductSearchResultsInterfaceFactory $featuredProductSearchResultsInterfaceFactory;
+    private FeaturedProductSearchResultsInterfaceFactory $searchResultsFactory;
 
     public function __construct(
-        FeaturedProductResource $formInputResource,
-        FeaturedProductModelFactory $formInputFactory,
-        FeaturedProductCollectionFactory $formInputCollectionFactory,
+        FeaturedProductResource $featuredProductResource,
+        FeaturedProductModelFactory $featuredProductFactory,
+        FeaturedProductCollectionFactory $featuredProductCollectionFactory,
         CollectionProcessorInterface $collectionProcessor,
         FeaturedProductSearchResultsInterfaceFactory $formInputSearchResultsInterfaceFactory
     ) {
-        $this->featuredProductResource = $formInputResource;
-        $this->featuredProductFactory = $formInputFactory;
-        $this->featuredProductCollectionFactory = $formInputCollectionFactory;
+        $this->featuredProductResource = $featuredProductResource;
+        $this->featuredProductFactory = $featuredProductFactory;
+        $this->featuredProductCollectionFactory = $featuredProductCollectionFactory;
         $this->collectionProcessor = $collectionProcessor;
-        $this->featuredProductSearchResultsInterfaceFactory = $formInputSearchResultsInterfaceFactory;
+        $this->searchResultsFactory = $formInputSearchResultsInterfaceFactory;
     }
 
     /**
@@ -102,12 +102,12 @@ class FeaturedProductRepository implements FeaturedProductRepositoryInterface
     public function getList(SearchCriteriaInterface $searchCriteria): FeaturedProductSearchResultsInterface
     {
         /** @var FeaturedProductCollection $collection */
-        $collection = $this->featuredProductFactory->create();
+        $collection = $this->featuredProductCollectionFactory->create();
 
         $this->collectionProcessor->process($searchCriteria, $collection);
 
         /** @var FeaturedProductSearchResultsInterface $searchResults */
-        $searchResults = $this->featuredProductSearchResultsInterfaceFactory->create();
+        $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->getSize());
